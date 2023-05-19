@@ -1,3 +1,5 @@
+import React from "react";
+import Head from "next/head";
 // Components
 import FindUsSection from "../containers/FindUsSection";
 import GetTheAppSection from "../containers/GetTheAppSection";
@@ -7,9 +9,11 @@ import OurPartnerSection from "../containers/OurPartnerSection";
 import QuerySection from "../containers/QuerySection";
 import ServicesSection from "../containers/ServiceSection";
 import WeFreshBusinessSection from "../containers/WeFreshBusinessSection";
-import Head from "next/head";
+// Utils
+import { getHomePageData } from "../utils/Api";
+import { homePageQuery } from "../utils/Query";
 
-export default function Home() {
+export default function Home({ content }: any) {
   return (
     <>
       <Head>
@@ -37,10 +41,11 @@ export default function Home() {
           name="description"
           content="At WeFresh, we specialize in crafting fresh and engaging websites that stand out from the crowd. Our team of talented designers and developers bring a unique perspective to every project, ensuring your online presence leaves a lasting impact and keeps users coming back for more."
         />
-        <title>Wefresh - Home</title>
+        <title>{content.homePageMetaTitle}</title>
       </Head>
+      s
       <Layout>
-        <HeroSection />
+        <HeroSection data={content.homePageHero} />
         <ServicesSection />
         <FindUsSection />
         <OurPartnerSection />
@@ -50,4 +55,13 @@ export default function Home() {
       </Layout>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const data = await getHomePageData(homePageQuery);
+  return {
+    props: {
+      content: { ...data },
+    },
+  };
 }

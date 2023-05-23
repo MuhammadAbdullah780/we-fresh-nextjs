@@ -21,7 +21,7 @@ const index = ({ title, links }: FieldDescriptionProps) => {
       <RichTextRenderer
         json={title.json}
         paraStyle="hidden"
-        h6Style="md:max-w-[114px] w-full"
+        h6Style="w-full"
       />
       <div className="w-full">
         {links.map((link, i) => {

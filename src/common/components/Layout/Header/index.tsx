@@ -6,10 +6,28 @@ import NavbarSmall from "../../MobileScreenNavbar";
 import SectionWrapper from "../../SectionWrapper";
 // Hooks
 import { useMediaQuery } from "../../../../utils/UseMediaQuery";
+import { ImageType } from "../../../../Types";
+import Image from "next/image";
+// Types
+export type HeaderProps = {
+  logo: ImageType;
+  headerLinksCollection: {
+    items: HeaderLinks[];
+  };
+};
 
-const index = () => {
-  const [isShown, setIsShown] = useState(false);
+export type HeaderLinks = {
+  url: string;
+  name: string;
+};
+
+export type Props = {
+  header: HeaderProps;
+};
+
+const index = ({ header }: Props) => {
   const isTablet = useMediaQuery("(max-width: 768px)");
+  const [isShown, setIsShown] = useState(false);
   const links = [
     {
       title: "Our App",
@@ -59,17 +77,22 @@ const index = () => {
           <nav className="flex items-center pl-[19px] pr-[20px] z-30 md:pl-0 md:pr-0 justify-between md:justify-around">
             {/* LOGO */}
             <Link href="/">
-              <WeFreshLogoSvg />
+              <Image
+                src={header.logo.url}
+                alt={header.logo.title}
+                width={108}
+                height={40}
+              />
             </Link>
             {/* LINKS  */}
             <ul className="md:flex gap-8 hidden">
-              {links.map((item, i) => {
+              {header.headerLinksCollection.items.map((item, i) => {
                 return (
                   <Link
                     href={item.url}
                     key={i}
                     className="hover:scale-105 transition-transform duration-300">
-                    <li className="navlink" >{item.title}</li>
+                    <li className="navlink">{item.name}</li>
                   </Link>
                 );
               })}
@@ -90,7 +113,10 @@ const index = () => {
             )}
           </nav>
         </SectionWrapper>
-        <NavbarSmall links={links} isShown={isShown} />
+        <NavbarSmall
+          links={header.headerLinksCollection.items}
+          isShown={isShown}
+        />
       </header>
     </>
   );

@@ -1,15 +1,18 @@
+import Head from "next/head";
 // Components
+import Layout from "../common/components/Layout";
 import FindUsSection from "../containers/FindUsSection";
 import GetTheAppSection from "../containers/GetTheAppSection";
 import HeroSection from "../containers/Hero";
-import Layout from "../common/components/Layout";
 import OurPartnerSection from "../containers/OurPartnerSection";
 import QuerySection from "../containers/QuerySection";
 import ServicesSection from "../containers/ServiceSection";
 import WeFreshBusinessSection from "../containers/WeFreshBusinessSection";
-import Head from "next/head";
+// Utils
+import { getHomePageData, getWebsiteDetailsData } from "../utils/Api";
+import { getHomePageQuery, getWebsiteDetailsQuery } from "../utils/Query";
 
-export default function Home() {
+export default function Home({ content, layoutProps }: any) {
   return (
     <>
       <Head>
@@ -32,22 +35,41 @@ export default function Home() {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <meta httpEquiv="Content-Type" content="text/html;charset=UTF-8" />
         <meta
           name="description"
-          content="At WeFresh, we specialize in crafting fresh and engaging websites that stand out from the crowd. Our team of talented designers and developers bring a unique perspective to every project, ensuring your online presence leaves a lasting impact and keeps users coming back for more."
+          content={
+            content.homePageMetaDescription ||
+            "At WeFresh, we specialize in crafting fresh and engaging websites that stand out from the crowd. Our team of talented designers and developers bring a unique perspective to every project, ensuring your online presence leaves a lasting impact and keeps users coming back for more."
+          }
         />
-        <title>Wefresh - Home</title>
+        <title>{content.homePageMetaTitle || "WeFresh - Home"}</title>
       </Head>
-      <Layout>
-        <HeroSection />
-        <ServicesSection />
-        <FindUsSection />
-        <OurPartnerSection />
-        <QuerySection />
-        <GetTheAppSection />
-        <WeFreshBusinessSection />
+      <Layout data={layoutProps} >
+        <HeroSection data={content.homePageHero} />
+        <ServicesSection data={content.homePageServicesSection} />
+        <FindUsSection data={content.homePageFindUs} />
+        <OurPartnerSection data={content.homePageOurPartners} />
+        <QuerySection
+          gotQuestions={content.homePageGotQuestions}
+          stillHaveAQuestion={content.homePageStillHaveAQuestion}
+        />
+        <GetTheAppSection data={content.homePageGetTheApp} />
+        <WeFreshBusinessSection data={content.homePageBusinessSection} />
       </Layout>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const homePageData = await getHomePageData(getHomePageQuery);
+  const websiteDetailsData = await getWebsiteDetailsData(
+    getWebsiteDetailsQuery,
+  );
+  return {
+    props: {
+      content: { ...homePageData },
+      layoutProps: { ...websiteDetailsData },
+    },
+  };
 }

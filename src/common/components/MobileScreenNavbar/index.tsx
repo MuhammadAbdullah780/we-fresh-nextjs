@@ -2,14 +2,11 @@
 import Link from "next/link";
 import ActionButton from "../Button";
 import FlexColumn from "../FlexColumn";
-
-type Links = {
-  title: string;
-  url: string;
-};
+// Type Imports
+import { HeaderLinks } from "../Layout/Header";
 
 type NavbarSmallProps = {
-  links: Links[];
+  links: HeaderLinks[];
   isShown: boolean;
 };
 
@@ -29,7 +26,11 @@ const index = ({ isShown, links }: NavbarSmallProps) => {
             <div
               key={i}
               className="flex text-white font-normal items-start flex-col gap-3 mb-5 justify-center">
-              <Link className="hover:scale-105 navlink transition-transform duration-300" href={link.url}>{link.title}</Link>
+              <Link
+                className="hover:scale-105 navlink transition-transform duration-300"
+                href={link.url}>
+                {link.name}
+              </Link>
               {/* DIVIDER */}
               <div className="divide-y h-[1px] w-full bg-light-grey " />
             </div>

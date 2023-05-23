@@ -3,18 +3,27 @@ import React, { useState } from "react";
 import ActionButton from "../../common/components/Button";
 import FlexCenter from "../../common/components/FlexCenter";
 import Modal from "../../common/components/Modal";
+import RichTextRenderer from "../../common/components/RichTextRenderer";
 import SectionHeadings from "../../common/components/SectionHeadings";
 import SectionWrapper from "../../common/components/SectionWrapper";
 import SvgWrapper from "../../common/components/SvgWrapper";
 import TextInput from "../../common/components/Input";
+// Types Imports
+import { Button, ImageType, RichText } from "../../Types";
+// Types
+type Props = {
+  data: {
+    findUsButton: Button;
+    findUsImage: ImageType;
+    findUsTitle: RichText;
+  };
+};
 
-const index = () => {
+const index = ({ data }: Props) => {
   const [area, setArea] = useState<string>();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleCloseModal = () => {
-    setIsOpen(false);
-  };
+  const handleCloseModal = () => setIsOpen(false);
 
   const handelSubmit = () => {
     if (!area) {
@@ -23,26 +32,27 @@ const index = () => {
     setIsOpen(true);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setArea(event.target.value);
-  };
 
   return (
-    // WRAPPER
     <SectionWrapper className="h-full md:max-h-[702px] lg:pt-[154px] lg:pb-[135px] !flex items-center overflow-hidden justify-center">
       {/* MODAL */}
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <p>You Entered {area}</p>
       </Modal>
-      <FlexCenter className="md:my-24 gap-28 md:gap-16 flex-col md:!flex-row h-[calc(100%-80px)] w-full md:w-[calc(100%-80px)] !justify-evenly overflow-x-visible">
+      <FlexCenter className="md:my-24 gap-28 md:gap-14 flex-col md:!flex-row h-[calc(100%-80px)] w-full md:w-[calc(100%-80px)] !justify-evenly overflow-x-visible">
         {/* FORM */}
-        <div className="flex w-full max-w-[460px] gap-4 flex-col">
-          <SectionHeadings
-            normalText="Find us in these"
-            boldText="Area"
-            orientation="normal"
-            className="w-full md:!justify-start !text-left"
-          />
+        <div className="flex w-full gap-4 flex-col">
+          {/* Title */}
+          <SectionHeadings className="w-full max- md:!justify-start text-center md:!text-left">
+            <RichTextRenderer
+              json={data.findUsTitle.json}
+              h3Style="text-txt-blue !w-full"
+              paraStyle="hidden"
+            />
+          </SectionHeadings>
+          {/* Form */}
           <FlexCenter className="gap-3 justify-center md:!justify-start ">
             <TextInput
               placeholder="Enter your area"
@@ -51,7 +61,9 @@ const index = () => {
               onChangeFunc={handleChange}
               height="35px"
             />
-            <ActionButton onClickFunc={handelSubmit} className="h-[35px]">Search</ActionButton>
+            <ActionButton onClickFunc={handelSubmit} className="h-[35px]">
+              {data.findUsButton.text}
+            </ActionButton>
           </FlexCenter>
         </div>
         {/* IMAGE */}
@@ -59,8 +71,8 @@ const index = () => {
           <div className="flex-1 w-full h-[207px] sm:h-full max-w-[310px] sm:max-w-[420px] md:max-w-[540px] overflow-visible">
             <img
               className="w-full h-full"
-              src="/FindUsSectionAssets/lab.png"
-              alt="lab"
+              src={data.findUsImage.url}
+              alt={data.findUsImage.title}
             />
           </div>
         </div>

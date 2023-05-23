@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type SvgWrapperProps = {
-  className: string;
+  className?: string;
   src: string;
   fill?: boolean;
   alt?: string;

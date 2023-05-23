@@ -1,12 +1,34 @@
-import React from "react";
-// Components
-import FlexColumn from "../../FlexColumn";
-import FlexCenter from "../../FlexCenter";
-import FieldDescription from "../../FooterFieldDescription";
-import { WeFreshLogoSvg } from "../../Icons";
 import Link from "next/link";
+// Components
+import { ImageType, LinkType, RichText } from "../../../../Types";
+import FlexCenter from "../../FlexCenter";
+import FlexColumn from "../../FlexColumn";
+import FieldDescription from "../../FooterFieldDescription";
+import Image from "next/image";
+// Types
+export type FooterProps = {
+  footerLogo: ImageType;
+  footerLinksCollection: {
+    items: LinkType[];
+  };
+  footerFooterDescriptionsCollection: {
+    items: {
+      title: RichText;
+      descriptionLinksCollection: {
+        items: {
+          name: string;
+          url: string;
+        }[];
+      };
+    }[];
+  };
+};
 
-const index = () => {
+type Props = {
+  footer: FooterProps;
+};
+
+const index = ({ footer }: Props) => {
   const data = [
     {
       title: "SERVICE AREA",
@@ -69,22 +91,27 @@ const index = () => {
     },
   ];
   return (
-    <FlexColumn className="gap-7 pt-16 pb-2 px-4 sm:px-5 lg:px-10 bg-bg-blue">
+    <footer className="flex items-center justify-center flex-col gap-7 pt-16 pb-2 px-4 sm:px-5 lg:px-10 bg-bg-blue">
       {/* MAIN FOOTER */}
       <FlexColumn className="w-full !items-start h-max">
         <FlexCenter className="py-5 !items-start md:py-5 gap-3 w-full !flex-col md:!flex-row">
           {/* LOGO */}
           <Link href="/">
-            <WeFreshLogoSvg logoColor="#68BAE3" />
+            <Image
+              src={footer.footerLogo.url}
+              alt={footer.footerLogo.title}
+              width={108}
+              height={40}
+            />
           </Link>
           {/* MAPPING THE DESCRIPTIONS */}
           <FlexCenter className="gap-4 flex-2 md:flex-row !items-start flex-col md:px-3">
-            {data.map((item, i) => {
+            {footer.footerFooterDescriptionsCollection.items.map((item, i) => {
               return (
                 <FieldDescription
                   key={i}
                   title={item.title}
-                  links={item.links}
+                  links={item.descriptionLinksCollection.items}
                 />
               );
             })}
@@ -94,20 +121,16 @@ const index = () => {
             <h6 className="w-full text-center md:w-max">Available on</h6>
             {/* ICONS */}
             <FlexCenter className="gap-3">
-              <Link href="https://www.apple.com" className="w-[45px] h-[45px]">
-                <img
-                  className="w-full h-full"
-                  src="/HeroSectionPng/Apple.png"
-                />
-              </Link>
-              <Link
-                href="https://play.google.com/"
-                className="w-[45px] h-[45px]">
-                <img
-                  className="w-full h-full"
-                  src="/HeroSectionPng/Googleplay.png"
-                />
-              </Link>
+              {footer.footerLinksCollection.items.map((item, i) => (
+                <Link href={item.link} className="relative w-[45px] h-[45px]">
+                  <Image
+                    className="w-full h-full"
+                    src={item.image.url}
+                    fill={true}
+                    alt={item.image.title}
+                  />
+                </Link>
+              ))}
             </FlexCenter>
           </FlexColumn>
         </FlexCenter>
@@ -117,12 +140,12 @@ const index = () => {
           {/* ALL RIGHT RESERVED DIV */}
           <FlexCenter className="w-full md:!w-[730px] md:!justify-start">
             <p className="!max-w-max w-full">
-              © 2020 WeFresh. All Rights Reserved.
+              {`© ${new Date().getFullYear()} WeFresh. All Rights Reserved.`}
             </p>
           </FlexCenter>
         </FlexColumn>
       </FlexColumn>
-    </FlexColumn>
+    </footer>
   );
 };
 

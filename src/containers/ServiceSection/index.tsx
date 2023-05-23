@@ -1,40 +1,62 @@
-import { useState } from "react";
+import { Document } from "@contentful/rich-text-types";
 import Image from "next/image";
-import "swiper/css";
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Components
-import AppDetailsComponent from "../../partials/AppDetailsComponent";
-import FlexCenter from '../../common/components/FlexCenter';
+import FlexCenter from "../../common/components/FlexCenter";
 import FlexColumn from "../../common/components/FlexColumn";
+import RichTextRenderer from "../../common/components/RichTextRenderer";
 import SectionHeadings from "../../common/components/SectionHeadings";
 import SectionWrapper from "../../common/components/SectionWrapper";
-import SvgWrapper from '../../common/components/SvgWrapper';
+import SvgWrapper from "../../common/components/SvgWrapper";
+import AppDetailsComponent from "../../partials/AppDetailsComponent";
 import ServicesWrapper from "../../partials/ServicesWrapper";
-// Data
-import { links } from "./data/Data";
+// Styles
+import "swiper/css";
+// Type Imports
+import { ImageType, RichText } from "../../Types";
+// Types
+type SliderDescription = {
+  description: RichText;
+};
 
-const index = () => {
+type Slider = {
+  servicesSliderTitle: string;
+  servicesSliderImage: ImageType;
+  servicesSliderDescriptionCollection: {
+    items: SliderDescription[];
+  };
+};
+
+type Props = {
+  data: {
+    servicesImage: ImageType;
+    servicesTitle: RichText;
+    servicesSliderContentCollection: {
+      items: Slider[];
+    };
+  };
+};
+
+const index = ({ data }: Props) => {
   const [activeSlideNumber, setActiveSlideNumber] = useState(0);
 
-  const handleSwipeChange = (activeIndex: number, slides: HTMLElement[]) => {
+  const handleSwipeChange = (activeIndex: number) =>
     setActiveSlideNumber(activeIndex);
-  };
 
-  const handleTouchChange = (dataId: number) => {
-    setActiveSlideNumber(dataId)
-  };
-
+  const handleTouchChange = (dataId: number) => setActiveSlideNumber(dataId);
 
   return (
     <SectionWrapper className="!p-0">
       <div className="sm:space-y-32 w-full py-5 sm:py-10">
         <div className="gap-3 space-y-5 lg:space-y-10 py-5">
-          <SectionHeadings
-            className="block m-auto max-w-[445px] w-full h-[70px] text-center"
-            boldText="services"
-            normalText="We've more"
-            orientation="normal"
-          />
+          {/* Title */}
+          <SectionHeadings className="block m-auto max-w-[445px] w-full h-[70px] text-center">
+            <RichTextRenderer
+              h3Style="section-heading"
+              json={data.servicesTitle.json}
+            />
+          </SectionHeadings>
           <div className="mb-10">
             <Swiper
               className="bg-swiper-bg lg:bg-white"
@@ -53,18 +75,19 @@ const index = () => {
                 },
               }}
               onSlideChange={(swiper) => {
-                let { activeIndex, slides } = swiper
-                handleSwipeChange(activeIndex, slides)
-              }}
-            >
-              {links?.map((item, i) => {
+                let { activeIndex, slides } = swiper;
+                handleSwipeChange(activeIndex);
+              }}>
+              {data?.servicesSliderContentCollection.items.map((item, i) => {
                 return (
                   <SwiperSlide
                     className="bg-white h-[220px] w-[186px]"
                     key={i}
-                    onClick={() => handleTouchChange(i)}
-                  >
-                    <ServicesWrapper src={item.url} text={item.text} />
+                    onClick={() => handleTouchChange(i)}>
+                    <ServicesWrapper
+                      src={item.servicesSliderImage.url}
+                      text={item.servicesSliderTitle}
+                    />
                   </SwiperSlide>
                 );
               })}
@@ -74,21 +97,36 @@ const index = () => {
         {/* OUR APP SECTION */}
         <FlexCenter className="gap-8 flex-col pt-14 sm:pt-0 md:h-[1069px] lg:max-h-[770px] lg:flex-row w-full !justify-center lg:justify-evenly ">
           <FlexCenter className="relative h-max">
-            <div className=" absolute h-[319px] sm:h-[580px] w-full max-w-[161px] sm:max-w-[291px]" >
-              <SvgWrapper src="/OurAppIcons/iPhone_Black.png" className="h-full w-full relative" />
+            {/* Image */}
+            <div className=" absolute h-[319px] sm:h-[580px] w-full max-w-[161px] sm:max-w-[291px]">
+              <SvgWrapper
+                src={data.servicesImage.url}
+                alt={data.servicesImage.title}
+                className="h-full w-full relative"
+              />
             </div>
             <div className="sm:h-[444px] h-[242px] w-[280px] sm:w-[448px] ">
-              <Image src='/OurAppIcons/YellowCircle.svg' alt="YellowCircle" width={448} height={444} />
+              <Image
+                src="/OurAppIcons/YellowCircle.svg"
+                alt="YellowCircle"
+                width={448}
+                height={444}
+              />
             </div>
           </FlexCenter>
+          {/* Slider Descriptions */}
           <FlexColumn className="gap-3  pt-[17px] px-[20px] sm:px-0 sm:!pt-[5px] sm:mt-7">
-            {links[activeSlideNumber].data.map((item, i) => {
+            {data.servicesSliderContentCollection.items[
+              activeSlideNumber
+            ].servicesSliderDescriptionCollection.items.map((item, i) => {
               return (
-                <AppDetailsComponent
-                  key={i}
-                  description={item.description}
-                  heading={item.heading}
-                />
+                <AppDetailsComponent key={i}>
+                  <RichTextRenderer
+                    paraStyle="!w-full"
+                    h5Style="text-txt-blue f-22 w-full"
+                    json={item.description.json}
+                  />
+                </AppDetailsComponent>
               );
             })}
           </FlexColumn>

@@ -1,37 +1,26 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import { Document } from "@contentful/rich-text-types";
 // Components
 import ActionButton from "../../common/components/Button";
-import { AppleIconSvg } from "../../common/components/Icons";
 import FlexCenter from "../../common/components/FlexCenter";
 import FlexColumn from "../../common/components/FlexColumn";
 import InputComponent from "../../common/components/Input";
 import Modal from "../../common/components/Modal";
+import RichTextRenderer from "../../common/components/RichTextRenderer";
+import SectionHeading from "../../common/components/SectionHeadings";
 import SectionWrapper from "../../common/components/SectionWrapper";
 import SvgWrapper from "../../common/components/SvgWrapper";
+// Type imports
+import { Button, ImageType, LinkType, RichText } from "../../Types";
 // Types
-type Image = {
-  title: string;
-  url: string;
-};
-
-type LinkItem = {
-  image: Image;
-  link: string;
-};
-
 type HeroProps = {
   data: {
-    heroButton: {
-      backgroundColor: string;
-      text: string;
-    };
-    heroImage: Image;
+    heroButton: Button;
+    heroImage: ImageType;
     heroLinksCollection: {
-      items: LinkItem[];
+      items: LinkType[];
     };
-    heroTitle: Document;
+    heroTitle: RichText;
   };
 };
 
@@ -39,9 +28,7 @@ const index = ({ data }: HeroProps) => {
   const [number, setNumber] = useState<number>();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleCloseModal = () => {
-    setIsOpen(false);
-  };
+  const handleCloseModal = () => setIsOpen(false);
 
   const handelSubmit = () => {
     if (!number) {
@@ -50,14 +37,11 @@ const index = ({ data }: HeroProps) => {
     setIsOpen(true);
   };
 
-  const handleChange = ({
-    target,
-  }: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(Number(target.value));
   };
 
   return (
-    // HERO SECTION
     <SectionWrapper className="flex items-center !pt-14 sm:!pt-20 lg:!pt-28 justify-center overflow-hidden">
       {/* MODAL */}
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
@@ -89,7 +73,6 @@ const index = ({ data }: HeroProps) => {
         src="/HeroSectionPng/LightBlueNavbarImage.svg"
         className="h-full -z-10 w-full hidden lg:block max-w-[632px] xl:max-w-[732px] max-h-[548px] xl:max-h-[548px] absolute top-[-22%] lg:top-[-34%] xl:top-[-35%] 2xl:top-[-34%] left-[50%] lg:left-[46%] xl:left-[50%]"
       />
-
       {/* RIGHT BLUE SVG */}
       <SvgWrapper
         src="/HeroSectionPng/RightBlueImage.svg"
@@ -100,13 +83,9 @@ const index = ({ data }: HeroProps) => {
         {/* LEFT SIDE FORM DIV */}
         <FlexColumn className="p-7 lg:p-5 gap-5  lg:!items-start">
           {/* H2 HEADING */}
-          <h2 className="mb-2 text-white">
-            The smarter way
-            <br />
-            <b className="w-full md:pt-[10px] block max-w-[481px]">
-              to order your food
-            </b>
-          </h2>
+          <SectionHeading className="text-white">
+            <RichTextRenderer json={data?.heroTitle.json} />
+          </SectionHeading>
           {/* FORM DIV */}
           <FlexCenter className="gap-3 px-3 small-mobile:px-0">
             <InputComponent
@@ -118,28 +97,21 @@ const index = ({ data }: HeroProps) => {
               placeholder="Enter phone number"
             />
             <ActionButton className="h-[35px]" onClickFunc={handelSubmit}>
-              {data.heroButton.text}
+              {data?.heroButton.text}
             </ActionButton>
           </FlexCenter>
           {/* SOCIAL ICONS */}
           <FlexColumn className="lg:gap-[24px] gap-[10px] md:gap[17px] lg:!items-start">
             <p className="text-white !w-fit lg:w-full">Available on</p>
             <FlexCenter className="!items-start gap-5">
-              {/* APPLE STORE ICON */}
-              <Link
-                href={"https://www.apple.com/"}
-                className="w-[45px] h-[45px]">
-                <AppleIconSvg height="100%" width="100%" />
-              </Link>
-              {/* GOOGLE PLAYSTORE ICON */}
-              <Link
-                href={"https://play.google.com/"}
-                className="w-[45px] h-[45px]">
-                <SvgWrapper
-                  src="/HeroSectionPng/Googleplay.png"
-                  className="relative cursor-pointer h-full w-full"
-                />
-              </Link>
+              {data?.heroLinksCollection.items.map((item, i) => (
+                <Link
+                  href={item.link}
+                  key={i}
+                  className="w-[45px] h-[45px] relative ">
+                  <SvgWrapper src={item?.image.url} alt={item?.image.title} />
+                </Link>
+              ))}
             </FlexCenter>
           </FlexColumn>
         </FlexColumn>
@@ -147,7 +119,8 @@ const index = ({ data }: HeroProps) => {
         <div className="w-full max-w-[291px]  relative">
           {/* IPHONE BLACK IMAGE */}
           <SvgWrapper
-            src="/HeroSectionPng/iPhone_Black.png"
+            src={data?.heroImage.url}
+            alt={data?.heroImage.title}
             className="h-[319px] relative sm:h-[580px] block m-auto  max-w-[161px] sm:max-w-[291px] "
           />
           {/* YELLOW SVG */}

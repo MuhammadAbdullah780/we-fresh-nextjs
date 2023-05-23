@@ -1,13 +1,41 @@
-import React, { useState } from "react";
+import { useState } from "react";
 // Components
-import Accordian from "../../partials/Accordian";
 import FlexCenter from "../../common/components/FlexCenter";
 import FlexColumn from "../../common/components/FlexColumn";
-import InfoBox from "../../partials/InfoBox";
-import SubHeading from "../../common/components/SubHeadings";
+import RichTextRenderer from "../../common/components/RichTextRenderer";
 import SectionWrapper from "../../common/components/SectionWrapper";
+import Accordian from "../../partials/Accordian";
+import InfoBox from "../../partials/InfoBox";
+// Type Imports
+import { RichText } from "../../Types";
+// Types
+type InfoContent = {
+  infoContent: RichText;
+};
 
-const index = () => {
+type AccordionStuff = {
+  question: RichText;
+  answer: RichText;
+};
+
+type Props = {
+  gotQuestions: {
+    gotQuestionsDescription: RichText;
+    gotQuestionsTitle: RichText;
+    gotQuestionsQuestionsCollection: {
+      items: AccordionStuff[];
+    };
+  };
+  stillHaveAQuestion: {
+    stillHaveAQuestionTitle: RichText;
+    stillHaveAQuestionDescription: RichText;
+    stillHaveAQuestionInfoCollection: {
+      items: InfoContent[];
+    };
+  };
+};
+
+const index = ({ gotQuestions, stillHaveAQuestion }: Props) => {
   const [isShown, setIsShown] = useState<number[]>([]);
   const [isMultiple, setIsMultiple] = useState<boolean>(true);
 
@@ -44,74 +72,58 @@ const index = () => {
     }
   };
 
-  const accordianData = [
-    {
-      heading: "How to get started?",
-      paragraph:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto aspernatur cum vero consectetur ab eius excepturi nisi!",
-    },
-    {
-      heading: "How to get started?",
-      paragraph:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto aspernatur cum vero consectetur ab eius excepturi nisi!",
-    },
-    {
-      heading: "How to get started?",
-      paragraph:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto aspernatur cum vero consectetur ab eius excepturi nisi!",
-    },
-    {
-      heading: "How to get started?",
-      paragraph:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto aspernatur cum vero consectetur ab eius excepturi nisi!",
-    },
-    {
-      heading: "How to get started?",
-      paragraph:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto aspernatur cum vero consectetur ab eius excepturi nisi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto aspernatur cum vero consectetur ab eius excepturi nisi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto aspernatur cum vero consectetur ab eius excepturi nisi!",
-    },
-  ];
   return (
     <SectionWrapper className="px-0">
       <FlexColumn className="gap-5 py-2">
-        <SubHeading text="Got questions?" />
-        <p className="max-w-[294px] sec-desc w-full md:text-f-22 text-center">
-          Perfect, we've got answers!
-        </p>
+        {/* Title */}
+        <RichTextRenderer
+          json={gotQuestions.gotQuestionsTitle.json}
+          h3Style="section-heading"
+          paraStyle="hidden"
+        />
+        {/* Description */}
+        <RichTextRenderer
+          json={gotQuestions.gotQuestionsDescription.json}
+          paraStyle="max-w-[294px] sec-desc w-full md:text-f-22 text-center"
+        />
         {/* QUESTIONS */}
         <FlexColumn className="w-full h-max gap-2">
-          {accordianData.map((item, index) => {
-            // const isPresent = isShown.find(i => i === index)
-            return (
-              <Accordian
-                key={index}
-                id={index}
-                toggleFunc={handleToggle}
-                isOpen={isShown.includes(index)}
-                heading={item.heading}
-                paragraph={item.paragraph}
-              />
-            );
-          })}
+          {gotQuestions.gotQuestionsQuestionsCollection.items.map(
+            (item, index) => {
+              return (
+                <Accordian
+                  key={index}
+                  id={index}
+                  toggleFunc={handleToggle}
+                  isOpen={isShown.includes(index)}
+                  heading={item.question}
+                  paragraph={item.answer}
+                />
+              );
+            },
+          )}
         </FlexColumn>
         {/* STILL HAVE A QUESTION DIV */}
         <FlexColumn className="gap-6 py-3 w-[90%] sm:w-full h-max ">
-          <SubHeading text="Still have a question?" />
-          <p className="max-w-[704px] md:text-f-22 sec-desc w-full text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore
-          </p>
+          {/* Title */}
+          <RichTextRenderer
+            json={stillHaveAQuestion.stillHaveAQuestionTitle.json}
+            h3Style="section-heading"
+            paraStyle="hidden"
+          />
+          {/* Description */}
+          <RichTextRenderer
+            json={stillHaveAQuestion.stillHaveAQuestionDescription.json}
+            paraStyle="max-w-[704px] md:text-f-22 sec-desc w-full text-center"
+          />
         </FlexColumn>
         {/* CONTACT INFO DIV'S */}
         <FlexCenter className="w-full px-3 !flex-col sm:!flex-row  h-max gap-3">
-          <InfoBox
-            heading="+66 8959888"
-            paragraph="Lorem ipsum dolor sit amet, consectetur"
-          />
-          <InfoBox
-            heading="Support@service.com"
-            paragraph="Lorem ipsum dolor sit amet, consectetur"
-          />
+          {stillHaveAQuestion.stillHaveAQuestionInfoCollection.items.map(
+            (item, i) => (
+              <InfoBox key={i} data={item.infoContent} />
+            ),
+          )}
         </FlexCenter>
       </FlexColumn>
     </SectionWrapper>

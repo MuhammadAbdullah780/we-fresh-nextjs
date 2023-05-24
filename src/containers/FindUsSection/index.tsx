@@ -61,7 +61,9 @@ const index = ({ data }: Props) => {
               onChangeFunc={handleChange}
               height="35px"
             />
-            <ActionButton onClickFunc={handelSubmit} className="h-[35px]">
+            <ActionButton
+              onClickFunc={handelSubmit}
+              backgroundColor={data?.findUsButton.backgroundColor}>
               {data.findUsButton.text}
             </ActionButton>
           </FlexCenter>

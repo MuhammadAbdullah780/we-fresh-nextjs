@@ -1,4 +1,5 @@
 import { useMediaQuery } from "../../../utils/UseMediaQuery";
+import { InputStyled } from "./styled";
 
 type InputProps = {
   type: React.HTMLInputTypeAttribute;
@@ -9,20 +10,19 @@ type InputProps = {
   onChangeFunc: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const index = ({
+const Input = ({
   type,
   placeholder,
   state,
   onChangeFunc,
   height,
-  width,
 }: InputProps) => {
   const isLg = useMediaQuery("(max-width: 1024px)");
   const splittedArr = placeholder.split(" ");
   return (
-    <input
+    <InputStyled
       type={type}
-      className={`outline-none border-2 border-light-grey w-[170px] lg:w-[300px] h-[${height}]  px-2 py-1 md:py-0 rounded-4`}
+      height={height}
       placeholder={
         type === "number"
           ? isLg
@@ -36,4 +36,4 @@ const index = ({
   );
 };
 
-export default index;
+export default Input;

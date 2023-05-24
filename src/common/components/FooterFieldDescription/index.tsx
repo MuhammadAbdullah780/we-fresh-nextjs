@@ -1,9 +1,10 @@
 import Link from "next/link";
 // Components
-import FlexColumn from "../FlexColumn";
+import RichTextRenderer from "../RichTextRenderer";
+// Styled Imports
+import { FieldDescriptionWrapper, LinksWrapper } from "./styled";
 // Type Imports
 import { RichText } from "../../../Types";
-import RichTextRenderer from "../RichTextRenderer";
 
 type Link = {
   name: string;
@@ -15,15 +16,11 @@ type FieldDescriptionProps = {
   links: Link[];
 };
 
-const index = ({ title, links }: FieldDescriptionProps) => {
+const FooterFieldDescription = ({ title, links }: FieldDescriptionProps) => {
   return (
-    <FlexColumn className="md:p-4 py-5 cursor-pointer md:items-start md:py-0 gap-4">
-      <RichTextRenderer
-        json={title.json}
-        paraStyle="hidden"
-        h6Style="w-full"
-      />
-      <div className="w-full">
+    <FieldDescriptionWrapper>
+      <RichTextRenderer json={title.json} paraStyle="hidden" h6Style="w-full" />
+      <LinksWrapper>
         {links.map((link, i) => {
           return (
             <Link key={i} href={link.url}>
@@ -31,9 +28,9 @@ const index = ({ title, links }: FieldDescriptionProps) => {
             </Link>
           );
         })}
-      </div>
-    </FlexColumn>
+      </LinksWrapper>
+    </FieldDescriptionWrapper>
   );
 };
 
-export default index;
+export default FooterFieldDescription;

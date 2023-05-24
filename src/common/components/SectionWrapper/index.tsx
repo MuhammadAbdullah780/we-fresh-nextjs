@@ -1,19 +1,20 @@
+import { SectionContainer, Wrapper } from "./styled";
 type SectionWrapperProps = {
-  children: React.ReactNode
-  className?: string
-  zIndex?: string
-}
+  children: React.ReactNode;
+  className?: string;
+  zIndex?: number;
+};
 
-const index = ({ children, className, zIndex }: SectionWrapperProps) => {
+const SectionWrapper = ({
+  children,
+  className,
+  zIndex,
+}: SectionWrapperProps) => {
   return (
-    <section className={`w-screen ${zIndex && ('z-' + zIndex)} relative block`} >
-      <div
-        className={`py-10 md:py-16 lg:px-10 block m-auto  w-full max-w-[1440px] ${className}`}
-      >
-        {children}
-      </div>
-    </section>
+    <SectionContainer zIndex={zIndex}>
+      <Wrapper className={className}>{children}</Wrapper>
+    </SectionContainer>
   );
 };
 
-export default index;
+export default SectionWrapper;

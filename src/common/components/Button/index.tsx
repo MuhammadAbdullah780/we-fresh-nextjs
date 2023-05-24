@@ -1,17 +1,29 @@
+import { ButtonStyled } from "./styled";
+
 type ButtonProps = {
   children: React.ReactNode;
+  height?: string;
   className?: string;
+  backgroundColor: string;
   onClickFunc?: () => void;
 };
 
-const index = ({ children, className, onClickFunc }: ButtonProps) => {
+const Button = ({
+  children,
+  height,
+  className,
+  backgroundColor,
+  onClickFunc,
+}: ButtonProps) => {
   return (
-    <button
-      onClick={onClickFunc}
-      className={`${className} w-[100px] h-[35px] lg:w-[140px] rounded-4 bg-btn-bg active:scale-95`}>
+    <ButtonStyled
+      height={height}
+      backgroundColor={backgroundColor}
+      className={className}
+      onClick={onClickFunc}>
       {children}
-    </button>
+    </ButtonStyled>
   );
 };
 
-export default index;
+export default Button;

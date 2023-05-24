@@ -96,7 +96,9 @@ const index = ({ data }: HeroProps) => {
               width="300px"
               placeholder="Enter phone number"
             />
-            <ActionButton className="h-[35px]" onClickFunc={handelSubmit}>
+            <ActionButton
+              backgroundColor={data?.heroButton.backgroundColor}
+              onClickFunc={handelSubmit}>
               {data?.heroButton.text}
             </ActionButton>
           </FlexCenter>

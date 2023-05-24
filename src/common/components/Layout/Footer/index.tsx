@@ -1,10 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 // Components
 import { ImageType, LinkType, RichText } from "../../../../Types";
 import FlexCenter from "../../FlexCenter";
-import FlexColumn from "../../FlexColumn";
 import FieldDescription from "../../FooterFieldDescription";
-import Image from "next/image";
+// Styled
+import {
+  AvailableOnHeading,
+  CenterDescriptonsWrapper,
+  FooterStyled,
+  FooterWrapper,
+  HR,
+  ParagraphWrapper,
+  SocialIconsWrapper,
+  WrapperBottom,
+  WrapperTop,
+} from "./styled";
+import { FlexCenterStyled } from "../../../GlobalStyles/styled";
 // Types
 export type FooterProps = {
   footerLogo: ImageType;
@@ -28,73 +40,12 @@ type Props = {
   footer: FooterProps;
 };
 
-const index = ({ footer }: Props) => {
-  const data = [
-    {
-      title: "SERVICE AREA",
-      links: [
-        {
-          title: "Lorem ipsum dol",
-          url: "#",
-        },
-        {
-          title: "Psum dolor",
-          url: "#",
-        },
-        {
-          title: "Sum dolor",
-          url: "#",
-        },
-        {
-          title: "Lorem ipsum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "ABOUT",
-      links: [
-        {
-          title: "Story of WeFresh",
-          url: "#",
-        },
-        {
-          title: "Read our blog",
-          url: "#",
-        },
-        {
-          title: "Sign up to deliver",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "HELP",
-      links: [
-        {
-          title: "Help center",
-          url: "#",
-        },
-        {
-          title: "Read FAQs",
-          url: "#",
-        },
-        {
-          title: "Community",
-          url: "#",
-        },
-        {
-          title: "Security",
-          url: "#",
-        },
-      ],
-    },
-  ];
+const Footer = ({ footer }: Props) => {
   return (
-    <footer className="flex items-center justify-center flex-col gap-7 pt-16 pb-2 px-4 sm:px-5 lg:px-10 bg-bg-blue">
+    <FooterStyled as="footer">
       {/* MAIN FOOTER */}
-      <FlexColumn className="w-full !items-start h-max">
-        <FlexCenter className="py-5 !items-start md:py-5 gap-3 w-full !flex-col md:!flex-row">
+      <FooterWrapper>
+        <WrapperTop>
           {/* LOGO */}
           <Link href="/">
             <Image
@@ -105,7 +56,7 @@ const index = ({ footer }: Props) => {
             />
           </Link>
           {/* MAPPING THE DESCRIPTIONS */}
-          <FlexCenter className="gap-4 flex-2 md:flex-row !items-start flex-col md:px-3">
+          <CenterDescriptonsWrapper className="flex-2">
             {footer.footerFooterDescriptionsCollection.items.map((item, i) => {
               return (
                 <FieldDescription
@@ -115,14 +66,14 @@ const index = ({ footer }: Props) => {
                 />
               );
             })}
-          </FlexCenter>
+          </CenterDescriptonsWrapper>
           {/* AVAILABLE ON ICONS */}
-          <FlexColumn className="gap-3 w-full md:!w-fit md:!justify-start">
-            <h6 className="w-full text-center md:w-max">Available on</h6>
+          <SocialIconsWrapper>
+            <AvailableOnHeading>Available on</AvailableOnHeading>
             {/* ICONS */}
-            <FlexCenter className="gap-3">
+            <FlexCenterStyled className="gap-3">
               {footer.footerLinksCollection.items.map((item, i) => (
-                <Link href={item.link} className="relative w-[45px] h-[45px]">
+                <Link href={item.link} key={i} className="social-icon-link">
                   <Image
                     className="w-full h-full"
                     src={item.image.url}
@@ -131,22 +82,22 @@ const index = ({ footer }: Props) => {
                   />
                 </Link>
               ))}
-            </FlexCenter>
-          </FlexColumn>
-        </FlexCenter>
-        <FlexColumn className="w-full gap-3">
+            </FlexCenterStyled>
+          </SocialIconsWrapper>
+        </WrapperTop>
+        <WrapperBottom>
           {/* HR */}
-          <hr className="w-[calc(100%+80px)] bg-border h-[2px]" />
+          <HR />
           {/* ALL RIGHT RESERVED DIV */}
-          <FlexCenter className="w-full md:!w-[730px] md:!justify-start">
-            <p className="!max-w-max w-full">
+          <ParagraphWrapper>
+            <p className="footer-para">
               {`© ${new Date().getFullYear()} WeFresh. All Rights Reserved.`}
             </p>
-          </FlexCenter>
-        </FlexColumn>
-      </FlexColumn>
-    </footer>
+          </ParagraphWrapper>
+        </WrapperBottom>
+      </FooterWrapper>
+    </FooterStyled>
   );
 };
 
-export default index;
+export default Footer;

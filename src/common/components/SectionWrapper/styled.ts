@@ -9,7 +9,6 @@ export const SectionContainer = styled.section<{ zIndex?: number }>`
 
 export const Wrapper = styled.div<SectionWrapperType>`
   ${tw`block m-auto  w-full`}
-
   padding-top: ${({ paddingTop }) =>
     paddingTop ? `${paddingTop?.sm}px` : "40px"};
   padding-bottom: ${({ paddingBottom }) =>

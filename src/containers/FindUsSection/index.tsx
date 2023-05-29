@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 // Components
 import ActionButton from "../../common/components/Button";
-import FlexCenter from "../../common/components/FlexCenter";
+import TextInput from "../../common/components/Input";
 import Modal from "../../common/components/Modal";
 import RichTextRenderer from "../../common/components/RichTextRenderer";
 import SectionHeadings from "../../common/components/SectionHeadings";
 import SectionWrapper from "../../common/components/SectionWrapper";
 import SvgWrapper from "../../common/components/SvgWrapper";
-import TextInput from "../../common/components/Input";
 // Types Imports
 import { Button, ImageType, RichText } from "../../Types";
+import { FormWrapper } from "../../common/GlobalStyles/styled";
+import {
+  FindUsImageWrapper,
+  FindUsLeftContainer,
+  FindUsRightContainer,
+  FindUsWrapper,
+} from "./styled";
 // Types
 type Props = {
   data: {
@@ -36,14 +42,17 @@ const index = ({ data }: Props) => {
     setArea(event.target.value);
 
   return (
-    <SectionWrapper className="h-full md:max-h-[702px] lg:pt-[154px] lg:pb-[135px] !flex items-center overflow-hidden justify-center">
+    <SectionWrapper
+      paddingTop={{ sm: 51, md: 51, lg: 154, xl: 154, "2xl": 154 }}
+      paddingBottom={{ sm: 50, md: 50, lg: 135, xl: 135, "2xl": 135 }}
+      className="h-full md:max-h-[702px]">
       {/* MODAL */}
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <p>You Entered {area}</p>
       </Modal>
-      <FlexCenter className="md:my-24 gap-28 md:gap-14 flex-col md:!flex-row h-[calc(100%-80px)] w-full md:w-[calc(100%-80px)] !justify-evenly overflow-x-visible">
+      <FindUsWrapper>
         {/* FORM */}
-        <div className="flex w-full gap-4 flex-col">
+        <FindUsLeftContainer>
           {/* Title */}
           <SectionHeadings className="w-full max- md:!justify-start text-center md:!text-left">
             <RichTextRenderer
@@ -53,32 +62,31 @@ const index = ({ data }: Props) => {
             />
           </SectionHeadings>
           {/* Form */}
-          <FlexCenter className="gap-3 justify-center md:!justify-start ">
+          <FormWrapper flexGap={3}>
             <TextInput
               placeholder="Enter your area"
-              type=""
+              type="text"
               state={area}
               onChangeFunc={handleChange}
-              height="35px"
             />
             <ActionButton
               onClickFunc={handelSubmit}
-              backgroundColor={data?.findUsButton.backgroundColor}>
+              backgroundcolor={data?.findUsButton.backgroundColor}>
               {data.findUsButton.text}
             </ActionButton>
-          </FlexCenter>
-        </div>
+          </FormWrapper>
+        </FindUsLeftContainer>
         {/* IMAGE */}
-        <div className="h-full max-h-[207px] sm:max-h-[350px] md:max-h-[420px] lg:max-h-[702px]  w-full max-w-[694px] flex items-center justify-center  ">
-          <div className="flex-1 w-full h-[207px] sm:h-full max-w-[310px] sm:max-w-[420px] md:max-w-[540px] overflow-visible">
+        <FindUsRightContainer>
+          <FindUsImageWrapper>
             <img
-              className="w-full h-full"
               src={data.findUsImage.url}
               alt={data.findUsImage.title}
+              className="w-full h-full"
             />
-          </div>
-        </div>
-      </FlexCenter>
+          </FindUsImageWrapper>
+        </FindUsRightContainer>
+      </FindUsWrapper>
       {/* SVG DIVS */}
       {/* BLUE COLORED SVG */}
       <div className="absolute h-[315px] sm:h-[580px] lg:h-[630px] w-[404px] lg:w-[500px] xl:w-[807px] -z-20 top-[40%] sm:top-[17%] md:top-[1%] lg:top-[4%] xl:top-[2%] right-[0%] sm:right-[0%] md:right-[-8%] lg:right-[-10%] xl:right-[-12%]">

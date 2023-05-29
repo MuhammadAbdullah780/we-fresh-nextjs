@@ -1,15 +1,16 @@
 import FlexColumn from "../../common/components/FlexColumn";
+import { AppDetailsWrapper, AbsoluteDiv } from "./styled";
 
 type AppDetailsComponentProps = {
   children: React.ReactNode;
 };
 
-const index = ({ children }: AppDetailsComponentProps) => {
+const index: React.FC<AppDetailsComponentProps> = ({ children }) => {
   return (
-    <FlexColumn className="gap-3 group !items-start rounded-10 transition-colors hover:bg-blue-light relative max-w-[599px] w-full p-4 text-left">
+    <AppDetailsWrapper className="group p-4">
       <div>{children}</div>
-      <div className="absolute h-6 w-6 hidden sm:group-hover:block transition-colors rounded-bl-md top-[calc(50%-12px)] -left-[12px] rotate-45 bg-blue-light" />
-    </FlexColumn>
+      <AbsoluteDiv />
+    </AppDetailsWrapper>
   );
 };
 

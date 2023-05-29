@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 // Components
@@ -10,8 +11,18 @@ import RichTextRenderer from "../../common/components/RichTextRenderer";
 import SectionHeading from "../../common/components/SectionHeadings";
 import SectionWrapper from "../../common/components/SectionWrapper";
 import SvgWrapper from "../../common/components/SvgWrapper";
+// Styled imports
+import { FormWrapper } from "../../common/GlobalStyles/styled";
 // Type imports
 import { Button, ImageType, LinkType, RichText } from "../../Types";
+import {
+  HeroContentWrapper,
+  HeroIconWrapper,
+  HeroImageContainer,
+  HeroImageWrapper,
+  HeroLinkWrapper,
+  LeftDivWrapper,
+} from "./styled";
 // Types
 type HeroProps = {
   data: {
@@ -42,7 +53,9 @@ const index = ({ data }: HeroProps) => {
   };
 
   return (
-    <SectionWrapper className="flex items-center !pt-14 sm:!pt-20 lg:!pt-28 justify-center overflow-hidden">
+    <SectionWrapper
+      overFlow="hidden"
+      paddingTop={{ sm: 56, md: 80, lg: 112, xl: 112, "2xl": 112 }}>
       {/* MODAL */}
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <p>You Entered {number}</p>
@@ -79,59 +92,59 @@ const index = ({ data }: HeroProps) => {
         className="w-full h-full hidden lg:block max-h-[347px] xl:max-h-[397px] absolute lg:top-[2%] xl:top-[3%] 2xl:top-[5%] lg:right-[-20%] xl:right-[-16%] 2xl:right-[-10%] max-w-[418px] xl:max-w-[468px] -z-20"
       />
 
-      <FlexCenter className="gap-[5rem] sm:gap-[10rem] lg:gap-7 w-full flex-col lg:flex-row !justify-center lg:!justify-around">
+      <HeroContentWrapper>
         {/* LEFT SIDE FORM DIV */}
-        <FlexColumn className="p-7 lg:p-5 gap-5  lg:!items-start">
+        <LeftDivWrapper>
           {/* H2 HEADING */}
           <SectionHeading className="text-white">
             <RichTextRenderer json={data?.heroTitle.json} />
           </SectionHeading>
           {/* FORM DIV */}
-          <FlexCenter className="gap-3 px-3 small-mobile:px-0">
+          <FormWrapper flexGap={3}>
             <InputComponent
               type="number"
               state={number}
               onChangeFunc={handleChange}
-              height="35px"
-              width="300px"
               placeholder="Enter phone number"
             />
             <ActionButton
-              backgroundColor={data?.heroButton.backgroundColor}
+              backgroundcolor={data?.heroButton.backgroundColor}
               onClickFunc={handelSubmit}>
               {data?.heroButton.text}
             </ActionButton>
-          </FlexCenter>
+          </FormWrapper>
           {/* SOCIAL ICONS */}
-          <FlexColumn className="lg:gap-[24px] gap-[10px] md:gap[17px] lg:!items-start">
+          <HeroIconWrapper>
             <p className="text-white !w-fit lg:w-full">Available on</p>
-            <FlexCenter className="!items-start gap-5">
+            <HeroLinkWrapper>
               {data?.heroLinksCollection.items.map((item, i) => (
                 <Link
                   href={item.link}
                   key={i}
-                  className="w-[45px] h-[45px] relative ">
+                  className="relative w-[45px] h-[45px]">
                   <SvgWrapper src={item?.image.url} alt={item?.image.title} />
                 </Link>
               ))}
-            </FlexCenter>
-          </FlexColumn>
-        </FlexColumn>
+            </HeroLinkWrapper>
+          </HeroIconWrapper>
+        </LeftDivWrapper>
         {/* IMAGE SECTION AREA */}
-        <div className="w-full max-w-[291px]  relative">
+        <HeroImageContainer>
           {/* IPHONE BLACK IMAGE */}
-          <SvgWrapper
-            src={data?.heroImage.url}
-            alt={data?.heroImage.title}
-            className="h-[319px] relative sm:h-[580px] block m-auto  max-w-[161px] sm:max-w-[291px] "
-          />
+          <HeroImageWrapper>
+            <Image
+              src={data?.heroImage.url}
+              alt={data?.heroImage.title}
+              fill={true}
+            />
+          </HeroImageWrapper>
           {/* YELLOW SVG */}
           <SvgWrapper
             src="/HeroSectionPng/Yellow.svg"
             className="h-[242px] sm:h-[398px] xl:h-[448px] w-[280px] sm:w-[468px] xl:w-[518px] absolute -z-10 bottom-[-5%] sm:bottom-[-4%] lg:bottom-[-5%] xl:bottom-[-10%] left-[4%] sm:left-[-25%] lg:left-[-35%]"
           />
-        </div>
-      </FlexCenter>
+        </HeroImageContainer>
+      </HeroContentWrapper>
     </SectionWrapper>
   );
 };

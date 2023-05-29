@@ -4,7 +4,7 @@ type ButtonProps = {
   children: React.ReactNode;
   height?: string;
   className?: string;
-  backgroundColor: string;
+  backgroundcolor: string;
   onClickFunc?: () => void;
 };
 
@@ -12,13 +12,13 @@ const Button = ({
   children,
   height,
   className,
-  backgroundColor,
+  backgroundcolor,
   onClickFunc,
 }: ButtonProps) => {
   return (
     <ButtonStyled
       height={height}
-      backgroundColor={backgroundColor}
+      backgroundcolor={backgroundcolor}
       className={className}
       onClick={onClickFunc}>
       {children}

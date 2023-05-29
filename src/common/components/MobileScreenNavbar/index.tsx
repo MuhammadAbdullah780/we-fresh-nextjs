@@ -4,7 +4,12 @@ import ActionButton from "../Button";
 import FlexColumn from "../FlexColumn";
 // Type Imports
 import { HeaderLinks } from "../Layout/Header";
-import { Divider, NavbarSmallWrapper, NavbarLinksWrapper } from "./styled";
+import {
+  Divider,
+  NavbarSmallWrapper,
+  NavbarLinksWrapper,
+  TopWrapper,
+} from "./styled";
 
 type NavbarSmallProps = {
   links: HeaderLinks[];
@@ -14,10 +19,7 @@ type NavbarSmallProps = {
 const index = ({ isShown, links }: NavbarSmallProps) => {
   return (
     <NavbarSmallWrapper isShown={isShown}>
-      <div
-        className={` ${
-          isShown ? "opacity-100" : "opacity-0"
-        } transition-opacity delay-150 w-full`}>
+      <TopWrapper isShown={isShown}>
         <Divider />
         {links.map((link, i) => {
           return (
@@ -30,12 +32,10 @@ const index = ({ isShown, links }: NavbarSmallProps) => {
             </NavbarLinksWrapper>
           );
         })}
-      </div>
+      </TopWrapper>
       <ActionButton
-        backgroundColor="#FFD476"
-        className={` ${
-          isShown ? "opacity-100" : "opacity-0"
-        } transition-opacity delay-300 !w-full`}>
+        backgroundcolor="#FFD476"
+        className={isShown ? "opacity-100 !w-full" : "opacity-0 !w-full"}>
         Sign up
       </ActionButton>
     </NavbarSmallWrapper>

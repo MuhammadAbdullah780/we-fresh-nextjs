@@ -4,19 +4,18 @@ import { InputStyled } from "./styled";
 type InputProps = {
   type: React.HTMLInputTypeAttribute;
   placeholder: string;
-  height?: string;
+  height?: number;
   state: string | number | undefined;
-  width?: string;
   onChangeFunc: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input = ({
+const Input: React.FC<InputProps> = ({
   type,
   placeholder,
   state,
   onChangeFunc,
   height,
-}: InputProps) => {
+}) => {
   const isLg = useMediaQuery("(max-width: 1024px)");
   const splittedArr = placeholder.split(" ");
   return (

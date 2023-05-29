@@ -6,7 +6,7 @@ export const Header = styled.header`
 `;
 
 export const NavBar = styled.nav`
-  ${tw`flex items-center pl-[19px] pr-[20px] z-30 md:pl-0 md:pr-0 justify-between md:justify-around`}
+  ${tw`flex items-center pl-[19px] pr-[20px] w-full z-30 md:pl-0 md:pr-0 justify-between md:justify-around`}
 `;
 
 export const NavLinks = styled.ul`

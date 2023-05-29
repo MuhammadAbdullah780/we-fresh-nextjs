@@ -8,6 +8,12 @@ import Accordian from "../../partials/Accordian";
 import InfoBox from "../../partials/InfoBox";
 // Type Imports
 import { RichText } from "../../Types";
+import {
+  InfoBoxWrapper,
+  QueryContainer,
+  QueryDescription,
+  QuestionWrapper,
+} from "./styled";
 // Types
 type InfoContent = {
   infoContent: RichText;
@@ -36,6 +42,14 @@ type Props = {
 };
 
 const index = ({ gotQuestions, stillHaveAQuestion }: Props) => {
+  const screensPadding = {
+    sm: 0,
+    md: 0,
+    lg: 0,
+    xl: 0,
+    ["2xl"]: 0,
+  };
+
   const [isShown, setIsShown] = useState<number[]>([]);
   const [isMultiple, setIsMultiple] = useState<boolean>(true);
 
@@ -73,8 +87,8 @@ const index = ({ gotQuestions, stillHaveAQuestion }: Props) => {
   };
 
   return (
-    <SectionWrapper className="px-0">
-      <FlexColumn className="gap-5 py-2">
+    <SectionWrapper paddingLeft={screensPadding} paddingRight={screensPadding}>
+      <QueryContainer>
         {/* Title */}
         <RichTextRenderer
           json={gotQuestions.gotQuestionsTitle.json}
@@ -87,7 +101,7 @@ const index = ({ gotQuestions, stillHaveAQuestion }: Props) => {
           paraStyle="max-w-[294px] sec-desc w-full md:text-f-22 text-center"
         />
         {/* QUESTIONS */}
-        <FlexColumn className="w-full h-max gap-2">
+        <QuestionWrapper>
           {gotQuestions.gotQuestionsQuestionsCollection.items.map(
             (item, index) => {
               return (
@@ -102,9 +116,9 @@ const index = ({ gotQuestions, stillHaveAQuestion }: Props) => {
               );
             },
           )}
-        </FlexColumn>
+        </QuestionWrapper>
         {/* STILL HAVE A QUESTION DIV */}
-        <FlexColumn className="gap-6 py-3 w-[90%] sm:w-full h-max ">
+        <QueryDescription>
           {/* Title */}
           <RichTextRenderer
             json={stillHaveAQuestion.stillHaveAQuestionTitle.json}
@@ -116,16 +130,16 @@ const index = ({ gotQuestions, stillHaveAQuestion }: Props) => {
             json={stillHaveAQuestion.stillHaveAQuestionDescription.json}
             paraStyle="max-w-[704px] md:text-f-22 sec-desc w-full text-center"
           />
-        </FlexColumn>
+        </QueryDescription>
         {/* CONTACT INFO DIV'S */}
-        <FlexCenter className="w-full px-3 !flex-col sm:!flex-row  h-max gap-3">
+        <InfoBoxWrapper>
           {stillHaveAQuestion.stillHaveAQuestionInfoCollection.items.map(
             (item, i) => (
               <InfoBox key={i} data={item.infoContent} />
             ),
           )}
-        </FlexCenter>
-      </FlexColumn>
+        </InfoBoxWrapper>
+      </QueryContainer>
     </SectionWrapper>
   );
 };

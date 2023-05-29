@@ -1,12 +1,15 @@
 import { Document } from "@contentful/rich-text-types";
 import Link from "next/link";
 // Components
-import FlexCenter from "../../common/components/FlexCenter";
-import FlexColumn from "../../common/components/FlexColumn";
 import RichTextRenderer from "../../common/components/RichTextRenderer/index";
 import SectionHeadings from "../../common/components/SectionHeadings";
 import SectionWrapper from "../../common/components/SectionWrapper";
 import SvgWrapper from "../../common/components/SvgWrapper";
+import {
+  AppSectionDescriptionWrapper,
+  AppSectionLinksWrapper,
+  AppSectionWrapper,
+} from "./styled";
 // Types Imports
 import { LinkType, RichText } from "../../Types";
 // Types
@@ -22,10 +25,14 @@ type Props = {
 
 const index = ({ data }: Props) => {
   return (
-    <SectionWrapper className="bg-bg-blue pt-[96px] !max-w-full pb-[83px] md:py-[103px]">
-      <FlexColumn className="gap-4">
+    <SectionWrapper
+      backgroundColor="#F2F9FF"
+      paddingTop={{ sm: 96, md: 103, lg: 103, xl: 103, "2xl": 103 }}
+      paddingBottom={{ sm: 83, md: 103, lg: 103, xl: 103, "2xl": 103 }}
+      maxWidth="100vw">
+      <AppSectionWrapper>
         {/* DESCRIPTION */}
-        <FlexColumn className="w-full m-5 px-3 sm:px-0 gap-2">
+        <AppSectionDescriptionWrapper>
           {/* Title */}
           <SectionHeadings className="section-heading">
             <RichTextRenderer
@@ -38,9 +45,9 @@ const index = ({ data }: Props) => {
             paraStyle="w-full md:w-[540px] text-center"
             json={data.getTheAppDescription.json}
           />
-        </FlexColumn>
+        </AppSectionDescriptionWrapper>
         {/* LINKS */}
-        <FlexCenter className="gap-3 !flex-col md:!flex-row ">
+        <AppSectionLinksWrapper>
           {data.getTheAppLinksCollection.items?.map((item, i) => (
             <Link href={item.link} key={i}>
               <SvgWrapper
@@ -50,8 +57,8 @@ const index = ({ data }: Props) => {
               />
             </Link>
           ))}
-        </FlexCenter>
-      </FlexColumn>
+        </AppSectionLinksWrapper>
+      </AppSectionWrapper>
     </SectionWrapper>
   );
 };

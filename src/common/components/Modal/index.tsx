@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 // Components
 import { CloseIconBlack } from "../Icons";
+// Styled Imports
+import {
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  MyModal,
+} from "./styled";
 
 type ModalProps = {
   isOpen: boolean;
@@ -24,17 +31,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div onClick={onClose} className="modal-overlay fixed inset-0 bg-gray-900 opacity-50"></div>
-      <div className="modal-content relative z-[70] bg-white w-full max-w-[600px] mx-3 rounded-lg p-6">
+    <MyModal>
+      <ModalOverlay onClick={onClose} className="modal-overlay" />
+      <ModalContent className="modal-content">
         {children}
-        <button
-          className="modal-close absolute w-[25px] h-[25px] top-[35%] right-5 text-gray-500 hover:text-gray-800"
-          onClick={onClose}>
+        <ModalCloseButton className="modal-close" onClick={onClose}>
           <CloseIconBlack />
-        </button>
-      </div>
-    </div>
+        </ModalCloseButton>
+      </ModalContent>
+    </MyModal>
   );
 };
 

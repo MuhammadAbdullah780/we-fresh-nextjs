@@ -9,8 +9,11 @@ import Modal from "../../common/components/Modal";
 import RichTextRenderer from "../../common/components/RichTextRenderer";
 import SectionHeadings from "../../common/components/SectionHeadings";
 import SectionWrapper from "../../common/components/SectionWrapper";
+// Styled imports
+import { FormWrapper } from "../../common/GlobalStyles/styled";
 // Type Imports
 import { Button, RichText } from "../../Types";
+import { BusinessDescriptionsWrapper, BusinessWrapper } from "./styled";
 // Types
 type Props = {
   data: {
@@ -37,13 +40,16 @@ const index = ({ data }: Props) => {
     setNumber(Number(event.target.value));
 
   return (
-    <SectionWrapper className="pt-[88px] pb-[103px]">
+    <SectionWrapper
+      paddingTop={{ sm: 88, md: 88, lg: 95, xl: 103, "2xl": 103 }}
+      paddingBottom={{ sm: 103, md: 103, lg: 96, xl: 88, "2xl": 88 }}
+      className="!pt-[88px] pb-[103px]">
       {/* MODAL */}
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <p>You Entered {number}</p>
       </Modal>
-      <FlexColumn className="gap-4">
-        <FlexColumn className="p-4 gap-3">
+      <BusinessWrapper>
+        <BusinessDescriptionsWrapper>
           {/* Title */}
           <SectionHeadings className="section-heading">
             <RichTextRenderer
@@ -56,24 +62,22 @@ const index = ({ data }: Props) => {
             paraStyle="w-full md:max-w-[540px] text-center"
             json={data.businessDescription.json}
           />
-        </FlexColumn>
+        </BusinessDescriptionsWrapper>
         {/* FORM */}
-        <FlexCenter className="gap-6 flex-wrap">
+        <FormWrapper flexGap={6}>
           <TextInput
             placeholder="Enter phone number"
             state={number}
             onChangeFunc={handleChange}
             type="number"
-            width="300px"
-            height="35px"
           />
           <ActionButton
             onClickFunc={handelSubmit}
-            backgroundColor={data?.businessButton.backgroundColor}>
+            backgroundcolor={data?.businessButton.backgroundColor}>
             {data.businessButton.text}
           </ActionButton>
-        </FlexCenter>
-      </FlexColumn>
+        </FormWrapper>
+      </BusinessWrapper>
     </SectionWrapper>
   );
 };

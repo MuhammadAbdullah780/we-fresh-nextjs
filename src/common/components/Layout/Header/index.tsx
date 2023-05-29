@@ -54,9 +54,22 @@ const index = ({ header }: Props) => {
     checkWidth();
   }, [isTablet]);
 
+  const screensPadding = {
+    sm: 0,
+    md: 0,
+    lg: 0,
+    xl: 0,
+    ["2xl"]: 0,
+  };
+
   return (
     <Header>
-      <SectionWrapper zIndex={30} className="!p-0">
+      <SectionWrapper
+        zIndex={30}
+        paddingTop={screensPadding}
+        paddingBottom={screensPadding}
+        paddingLeft={screensPadding}
+        paddingRight={screensPadding}>
         <NavBar>
           {/* LOGO */}
           <Link href="/">

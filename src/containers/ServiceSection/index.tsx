@@ -15,6 +15,15 @@ import ServicesWrapper from "../../partials/ServicesWrapper";
 import "swiper/css";
 // Type Imports
 import { ImageType, RichText } from "../../Types";
+import {
+  OurAppContainer,
+  OurAppLeftContainer,
+  ServiceDescriptionsWrapper,
+  ServicesImageWrapper,
+  ServicesSectionWrapper,
+  SliderContainer,
+  YellowSvgWrapper,
+} from "./styled";
 // Types
 type SliderDescription = {
   description: RichText;
@@ -39,6 +48,13 @@ type Props = {
 };
 
 const index = ({ data }: Props) => {
+  const screensPadding = {
+    sm: 0,
+    md: 0,
+    lg: 0,
+    xl: 0,
+    ["2xl"]: 0,
+  };
   const [activeSlideNumber, setActiveSlideNumber] = useState(0);
 
   const handleSwipeChange = (activeIndex: number) =>
@@ -47,9 +63,13 @@ const index = ({ data }: Props) => {
   const handleTouchChange = (dataId: number) => setActiveSlideNumber(dataId);
 
   return (
-    <SectionWrapper className="!p-0">
-      <div className="sm:space-y-32 w-full py-5 sm:py-10">
-        <div className="gap-3 space-y-5 lg:space-y-10 py-5">
+    <SectionWrapper
+      paddingBottom={screensPadding}
+      paddingLeft={screensPadding}
+      paddingRight={screensPadding}
+      paddingTop={screensPadding}>
+      <ServicesSectionWrapper>
+        <SliderContainer>
           {/* Title */}
           <SectionHeadings className="block m-auto max-w-[445px] w-full h-[70px] text-center">
             <RichTextRenderer
@@ -57,6 +77,7 @@ const index = ({ data }: Props) => {
               json={data.servicesTitle.json}
             />
           </SectionHeadings>
+          {/* Slider */}
           <div className="mb-10">
             <Swiper
               className="bg-swiper-bg lg:bg-white"
@@ -93,29 +114,29 @@ const index = ({ data }: Props) => {
               })}
             </Swiper>
           </div>
-        </div>
+        </SliderContainer>
         {/* OUR APP SECTION */}
-        <FlexCenter className="gap-8 flex-col pt-14 sm:pt-0 md:h-[1069px] lg:max-h-[770px] lg:flex-row w-full !justify-center lg:justify-evenly ">
-          <FlexCenter className="relative h-max">
+        <OurAppContainer>
+          <OurAppLeftContainer>
             {/* Image */}
-            <div className=" absolute h-[319px] sm:h-[580px] w-full max-w-[161px] sm:max-w-[291px]">
+            <ServicesImageWrapper>
               <SvgWrapper
                 src={data.servicesImage.url}
                 alt={data.servicesImage.title}
                 className="h-full w-full relative"
               />
-            </div>
-            <div className="sm:h-[444px] h-[242px] w-[280px] sm:w-[448px] ">
+            </ServicesImageWrapper>
+            <YellowSvgWrapper>
               <Image
                 src="/OurAppIcons/YellowCircle.svg"
                 alt="YellowCircle"
                 width={448}
                 height={444}
               />
-            </div>
-          </FlexCenter>
+            </YellowSvgWrapper>
+          </OurAppLeftContainer>
           {/* Slider Descriptions */}
-          <FlexColumn className="gap-3  pt-[17px] px-[20px] sm:px-0 sm:!pt-[5px] sm:mt-7">
+          <ServiceDescriptionsWrapper>
             {data.servicesSliderContentCollection.items[
               activeSlideNumber
             ].servicesSliderDescriptionCollection.items.map((item, i) => {
@@ -129,9 +150,9 @@ const index = ({ data }: Props) => {
                 </AppDetailsComponent>
               );
             })}
-          </FlexColumn>
-        </FlexCenter>
-      </div>
+          </ServiceDescriptionsWrapper>
+        </OurAppContainer>
+      </ServicesSectionWrapper>
     </SectionWrapper>
   );
 };

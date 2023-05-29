@@ -8,13 +8,13 @@ type SvgWrapperProps = {
   imageClassName?: string;
 };
 
-const index = ({
+const index: React.FC<SvgWrapperProps> = ({
   className,
   src,
   fill = true,
   alt,
   imageClassName,
-}: SvgWrapperProps) => {
+}) => {
   const splittedSrc = src && src.split("/");
   const generatedAlt = splittedSrc[splittedSrc.length - 1].split(".")[0];
   return (
